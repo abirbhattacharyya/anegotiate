@@ -1,0 +1,115 @@
+/* 
+Author: Michael Arnaldo
+Author Website:www.PixeltoDesign.com
+Date Created:07-15-09
+*/
+
+body {
+	background: #efcee2;
+	font-family: Verdana,Geneva,sans-serif;
+	font-size: 12px;
+	}
+a img { border: 0;}
+#wrapper {
+	width: 960px;
+	margin: 0 auto;
+	}
+
+#header {}
+#top-userinfo {
+	height: 115px;
+	border: 1px solid #efcee2;
+	}
+#logo {
+	background: url(/images/logo.jpg) top no-repeat;
+	height: 49px;
+	float: left;
+	width: 189px;
+	margin: 35px 0 0 25px;
+	padding: 0px 0 0 0;
+	}
+#logo a {
+	height: 37px;
+	width:134px;
+	display: block;
+	}
+#logo h1{ display: none;}
+
+
+/* Top Navigation */	
+.navigation { 
+	background: url(/images/navBG.jpg) bottom repeat-x;
+	height: 38px;
+	}
+.navigation ul, .footNavigation ul { 
+	height: 38px;
+	margin: 0;
+	padding: 0;}
+.navigation ul li {
+	float:left;
+	list-style-type: none;
+	margin: 0 15px 0 65px;
+	text-align: center;
+	}
+	
+.footNavigation ul li { 
+	float:left;
+	list-style-type: none;
+	margin: 0 10px 0 23px;
+	text-align: center;
+	}
+.navigation ul li a {
+	display: block;
+	color: #be1e2d;
+	height: 38px;
+	font-size: 15px;
+	text-decoration: none;
+	padding: 10px 5px 0 5px;
+	}
+.navigation ul li span {
+	display: block;
+	color: #be1e2d;
+	height: 38px;
+	font-size: 15px;
+	text-decoration: none;
+	padding: 10px 5px 0 5px;
+	}
+	
+.footNavigation ul li a {
+	display: block;
+	color: #fff;
+	height: 38px;
+	font-size: 13px;
+	text-decoration: none;
+	padding: 12px 5px 0 5px;
+	}
+.navigation ul li a:hover { background:url(/images/navBGHover.jpg) top center no-repeat; color: #fff;}
+
+.active{ background:url(/images/navBGHover.jpg) top center no-repeat; color: #fff;}
+/* Body Content */
+.contentContainer {
+	min-height: 500px;
+	padding: 20px 0px;
+	}
+
+/* footer */
+#footer {
+	width: 960px;
+	height: 38px;
+	margin: 100px 0 0 0;
+	background: #cd2036;
+	}
+/* Footer Navigation */
+
+.footNavigation ul {
+	float: right;
+	}
+.footNavigation ul li {
+	margin-right: 30px;
+	}
+.copyight {	
+	color: #fff;
+	font-size: 12px;
+	margin: 0 0  0 20px;
+	padding: 12px 0 0 0;
+	}

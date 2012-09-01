@@ -1,0 +1,15 @@
+<div class="w600 center">
+	<h3>Negotiations in process, the suspense is killing us!</h3>
+	<h3>Currently Negotiating with <%= @user.screen_name %> on <%= @category.category %></h3>
+	<h3><%= @category.message %></h3>
+        <span class="check">Yes</span> <span class="x">No</span> <span class="refresh">Counter</span>
+</div>
+<script type="text/javascript">
+    var idtimer = 0;
+    idtimer = setInterval(function(){ pullticker();}, 4000);
+
+    function pullticker()
+    {
+        window.location = "<%= negotiated_path(params[:id],@category) %> "
+    }
+</script>

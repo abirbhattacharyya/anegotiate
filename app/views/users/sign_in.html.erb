@@ -1,0 +1,12 @@
+<div class="redBar"><%= link_to "Home", root_path %></div>
+<div class="home-2">
+                <h1>Start playing now!</h1>
+
+                <div>You need a Twitter account.
+                    <%= link_to(image_tag('/images/connectTwitter.jpg'), login_path) %>
+                </div>
+
+                <div>You need a Facebook account.
+                    <%= fb_login_button('javascript:fb_login_button_click();";', :length => "long", :class => "fb_login_not_logged_in FB_ElementReady") %>
+                </div>
+</div><!-- /home-startPlaying -->

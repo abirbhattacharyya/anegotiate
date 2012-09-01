@@ -1,0 +1,28 @@
+<div class="w635">
+	<h1>Buy Stuff (energy items)</h1>
+
+        <% for item in @items %>
+	<div class="buystuff">
+		<div class="buy-image">
+                        <%= image_tag item.image_url, :size => "210x135" %>
+                </div>
+		<div class="buy-info">
+			<div class="buy-name"><%= item.name %></div>
+                        <div class="buy-costpoints">Each = <%= number_to_currency(item.points, :precision => 0, :unit => "") %> pts</div>
+			<div class="buy-costpoints">Total = <label id='total_<%= item.id %>'><%= number_to_currency(item.points, :precision => 0, :unit => "") %></label></div>
+			
+                        <% @own = OwnItem.find(:first, :select => ["sum(qty) as 'total'"], :conditions => ["user_id=#{current_user.id} and item_id=#{item.id}"]) %>
+			<div class="buy-youown">You currently own <%= (@own.total.to_i) %></div>
+			
+			<div class="buy-action">
+                                <% form_tag buy_item_path(item) do %>
+                                    <div class="buy-howmany">
+                                          <%= text_field_tag :qty, "How many?", :onkeyup => "checkLength(this.id);calculate(#{item.points},this.value,'total_#{item.id}')", :onKeyPress => "return keyRestrict(event,'0123456789');", :onblur => "checkLength(this.id);if(this.value=='') this.value='How many?';", :onfocus => "if(this.value=='How many?') this.value='';"  %>
+                                    </div><!-- /howmany -->
+                                    <div class="buy-btn"><%= image_submit_tag("/images/buy.gif", :size => "133x26") %></div>
+                                <% end %>
+			</div><!-- /action -->
+		</div><!-- /buy-info -->
+	</div><!-- /buystuff -->
+	<% end %>
+</div><!-- /w635 -->

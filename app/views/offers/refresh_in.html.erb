@@ -1,0 +1,4 @@
+<% mins = ((@diff)*60).floor %>
+<% sec = ((@diff*60*60)%60).to_i %>
+
+<%= "#{(mins >= 0 and mins < 10) ? "0#{mins}" : mins}:#{sec < 10 ? "0#{sec}" : sec}" %>

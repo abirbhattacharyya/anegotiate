@@ -1,0 +1,69 @@
+<div class="w435 note-checkmark spacingdown">
+      <img src="/images/checkmark.gif" align="left" alt="checkmark" width="62" height="52"/>
+      <p> Hey, you gave your points to the following:</p>
+</div>
+<% if @friend_points.size > 0 %>
+<div class="graph-outter">
+        <% if current_user.facebook_user? %>
+        <div class="facebook">Facebook Friends</div>
+        <% else %>
+        <div class="twitter">Twitter Followers</div>
+        <% end %>
+        <div class="graph-inner">
+            <% i = 0 %>
+            <% for friend in @friend_points %>
+                <% @class = ((i+=1) != @friend_points.size) ? "divider-b" : '' %>
+                <table class="<%=@class%>">
+                        <thead>
+                                <tr>
+                                        <td><%= friend.recipient_user.style %></td>
+                                        <td class="table-c">Level</td>
+                                        <td class="table-c">Donated Points</td>
+                                        <td class="table-c">Their Points</td>
+                                </tr>
+                        </thead>
+
+                        <tbody>
+                                <tr>
+                                        <td class="name"><%= friend.recipient_user.screen_name %></td>
+                                        <td class="level"><%= current_level(friend.recipient_user) %></td>
+                                        <td class="donate"><%= number_to_currency(friend.point, :precision => 0, :unit => '') %></td>
+                                        <td class="points"><%= number_to_currency(friend.recipient_user.points, :precision => 0, :unit => '') %></td>
+                                </tr>
+                        </tbody>
+                  </table>
+            <% end %>
+        </div><!-- /graph-inner -->
+</div><!-- /graph-ouuter -->
+<% end %>
+
+<% if @random_points.size > 0 %>
+<div class="graph-outter">
+        <div class="randomplayer">Random Players</div>
+        <div class="graph-inner">
+            <% i = 0 %>
+            <% for friend in @random_points %>
+                <% @class = ((i+=1) != @random_points.size) ? "divider-b" : '' %>
+                <table class="<%=@class%>">
+                        <thead>
+                                <tr>
+                                        <td><%= friend.recipient_user.style %></td>
+                                        <td class="table-c">Level</td>
+                                        <td class="table-c">Donated Points</td>
+                                        <td class="table-c">Their Points</td>
+                                </tr>
+                        </thead>
+
+                        <tbody>
+                                <tr>
+                                        <td class="name"><%= friend.recipient_user.screen_name %></td>
+                                        <td class="level"><%= current_level(friend.recipient_user) %></td>
+                                        <td class="donate"><%= number_to_currency(friend.point, :precision => 0, :unit => '') %></td>
+                                        <td class="points"><%= number_to_currency(friend.recipient_user.points, :precision => 0, :unit => '') %></td>
+                                </tr>
+                        </tbody>
+                  </table>
+            <% end %>
+        </div><!-- /graph-inner -->
+</div><!-- /graph-ouuter -->
+<% end %>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en" lang="en">
+<head>
+    <title>Anegotiate...</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="imagetoolbar" content="false" />
+    <meta name="viewport" content="width=500" />
+    <link rel="icon"  type="image/png" href=<%= image_path '/favicon.ico' %> />
+    
+    <%= stylesheet_link_tag "style", "base.css" %>
+    
+    <%= javascript_include_tag 'ajax_form', :defaults, :cache => "main" %>
+
+    <!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styleie6.css" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styleie7.css">
+    <![endif]-->
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styleie8.css">
+    <![endif]-->
+</head>
+<body>
+    <%= fb_connect_javascript_tag %>
+    <%= javascript_tag "window.api_key = '#{Facebooker.api_key}';" %>
+    <%= javascript_tag "window.xd_receiver_location = '#{ENV['XD_RECEIVER_LOCATION']}';" %>
+    <%= javascript_tag "window.facebook_authenticate_location = '#{ENV['FACEBOOK_AUTHENTICATE_LOCATION']}';" %>
+    <%= javascript_include_tag "facebook_listener" %>
+
+    <%#= javascript_include_tag 'facebook_require' %>
+    
+
+    <div id="wrapper">
+        <div id="top-userinfo">
+              <a href="/"><div id="logo"><span><h1>Anegotiate</h1></span></div></a><!-- /logo -->
+
+              <% if logged_in? %>
+                  <div id="userstatus">
+                          <table id="userstat-table">
+                                  <thead>
+                                          <tr>
+                                                  <td>Points</td>
+                                                  <td>Level</td>
+                                                  <td>Energy</td>
+                                                  <td>Task (&#37;)</td>
+                                                  <td>Negotiation (&#37;)</td>
+                                          </tr>
+                                  </thead>
+
+                                  <tbody>
+                                          <tr>
+                                                  <td><%= number_to_currency(current_user.points, :unit => "", :precision => 0) %></td>
+                                                  <td><%= current_level(current_user) %></td>
+                                                  <td><%= number_to_currency(current_user.energy, :unit => "", :precision => 0) %></td>
+                                                  <td><%= number_to_currency(completion_ratio, :unit => "", :precision => 1) %> &#37;</td>
+                                                  <td><%= number_to_currency(negotiation_won_ratio, :unit => "", :precision => 1) %> &#37;</td>
+                                          </tr>
+                                  </tbody>
+                          </table>
+                  </div><!-- /user stats -->
+              <% end %>
+        </div>
+        
+        <% if logged_in? %>
+             <% content_tag :div, :id => "header" do -%>
+                    <% content_tag :div, :class => "navigation" do -%>
+                            <% content_tag :ul do -%>
+                                    <%= (request.path == root_path) ? "<li class='active'><span>Home</span></li>" : "<li>#{link_to("Home", root_path)}</li>" %>
+                                    <% unless current_user.style.nil? %>
+                                        <%= (request.path == tasks_path) ? "<li class='active'><span>Tasks</span></li>" : "<li>#{link_to("Tasks", tasks_path)}</li>" %>
+                                    <% end %>
+                                    <%= (request.path == search_users_path) ? "<li class='active'><span>Negotiate</span></li>" : "<li>#{link_to("Negotiate", search_users_path)}</li>" %>
+                                    <%= (request.path == be_kind_path) ? "<li class='active'><span>Be Kind</span></li>" : "<li>#{link_to("Be Kind", be_kind_path)}</li>" %>
+                                    <%= (request.path == lottery_path) ? "<li class='active'><span>Lottery</span></li>" : "<li>#{link_to("Lottery", lottery_path)}</li>" %>
+                                    <%= (request.path == paypal_path) ? "<li class='active'><span>Buy Points</span></li>" : "<li>#{link_to("Buy Points", paypal_path)}</li>" %>
+                            <% end -%><!-- /navList -->
+                    <% end -%><!-- /navigation -->
+            <% end -%><!-- /header -->
+            
+        <% end %>
+
+	<div class="contentContainer">
+                <div class="red"><%= flash[:notice] %></div>
+                <%=yield%>
+	</div><!-- /contentContainer -->
+        
+	<div id="footer">
+		<div class="footNavigation">
+                      <ul>
+                            <% if logged_in? %> 
+				<li><%= link_to("Invite", invite_path) %></li>
+				<li><%= link_to("Energy", get_energy_path) %></li>
+				<li><%= link_to("Tools", get_tools_path) %></li>
+				<li><%= link_to("Notifications", notifications_path) %></li>
+				<li><%= link_to("Style", style_path) %></li>
+                            <% end %>
+                            <li><%= link_to("Contact Us", contactus_path) %></li>
+                            <% if logged_in? %> 
+				<li><%= "#{(current_user.facebook_user?) ? fb_logout_link("Sign out", logout_path, :return => true) : link_to('Sign out', logout_path)}" if logged_in? %></li>
+                            <% end %>
+                      </ul>
+			<div class="copyight">&copy 2009 ANegotiate</div>
+		</div><!-- /footNavigation -->
+	</div><!-- /footer -->
+        <!-- AddThis Button BEGIN -->
+        <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&pub=xa-4a9b69626e06c0d9"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a9b69626e06c0d9"></script>
+        <!-- AddThis Button END -->
+    </div><!-- /wrapper -->
+    
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        try {
+        var pageTracker = _gat._getTracker("UA-131023-11");
+        pageTracker._trackPageview();
+        } catch(err) {}
+    </script>
+
+</body>
+</html>

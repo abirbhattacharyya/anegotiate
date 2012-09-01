@@ -1,0 +1,69 @@
+<div class="pagetitle"><h1>Invite Away (Life is Lonely Don't Play By Yourself)</h1></div>
+
+    <div class="2col">
+          <div class="col-2">
+                Invite your friends to play and grow your negotiations gang
+          </div>
+          <div class="col-1">
+                <span class="invite-title">Select negotiators to invite</span>
+                <div class="invite-chart">
+<% if current_user.facebook_user? %>
+    <div class="facebook-invite">Facebook friends</div>
+        <fb:serverfbml>
+            <script type="text/fbml">
+                <fb:fbml>
+                    <fb:request-form
+                    action="http://www.anegotiate.com"
+                    method="GET"
+                    invite="true"
+                    type="Anegotiate"
+                    content="Negotiations Games <fb:req-choice url='http://www.anegotiate.com/' label='Join Anegotiate Now' /> " >
+                    <fb:multi-friend-selector showborder="false"
+                    actiontext="Select friends to invite to Anegotiate"
+                    cols="4" 
+                    exclude_ids="" >
+
+                    </fb:request-form>
+                </fb:fbml>
+            </script>
+        </fb:serverfbml>
+<% else %>
+                        <div class="twitter-invite">Twitter followers</div>
+			<div class="selected-friends">
+				<div id="follwers">Followers (<%= @screen_names.size %>)</div>
+			</div><!-- /selected-friends -->
+                        <% i = -1 %>
+                        <% form_tag invite_to_path do  %>
+                        <% for screen_name in @screen_names %>
+                            <div class="friend" id="twitter_<%= screen_name %>" onclick="check_select(this.id)">
+                                <%= image_tag(@profile_image_url[i+=1], :size => "48x48", :align => "left") %>
+                                <%#= link_to(image_tag(@profile_image_url[i+=1], :size => "48x48", :align => "left"),direct_message_path(screen_name)) %>
+                                <p><%= screen_name %></p>
+                            </div>
+                            <%= hidden_field_tag "invite[twitter_#{screen_name}_select]", 0 %>
+                        <% end %>
+			<div class="selected-friends selected-btn">
+                            <%= image_submit_tag "/images/invitetoneg.gif", :alt => "invitetoneg", :size => "148x25" %>
+                        </div>
+                        <% end %>
+<% end %>
+                </div><!-- invite-chart -->
+          </div><!-- col-1 -->
+
+    </div> <!-- 2col  -->
+
+<% javascript_tag do %>
+    function check_select(id)
+    {
+        if(document.getElementById(id).className == "friend")
+        {
+            document.getElementById(id).className = "friend_selected"
+            document.getElementById('invite_' + id + '_select').value = 1
+        }
+        else
+        {
+            document.getElementById(id).className = "friend"
+            document.getElementById('invite_' + id + '_select').value = 0
+        }
+    }
+<% end %>

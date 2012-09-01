@@ -1,0 +1,14 @@
+<div class="pagetitle-c">
+    <h1><%= @message %></h1> 
+    <%= 
+        if @flag == false 
+          if current_user.energy > min_energy(current_user)
+            link_to(image_tag("/images/showmemorestuff.jpg", :size => "216x40"), tasks_path) 
+          else
+              link_to(image_tag("/images/buypoints.gif", :alt => "buypoints", :size => "172x34"), paypal_path)
+          end
+        else
+            link_to(image_tag("/images/showmemorestuff.jpg", :size => "216x40"), tasks_path) 
+        end
+    %>
+</div>

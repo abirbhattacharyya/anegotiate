@@ -1,0 +1,35 @@
+<% if logged_in? %>
+    <div class="w600 note spacingdown">
+		<img src="/images/rose.gif" alt="rose" align="left" width="106" height="94"/>
+		<h1>Be Kind.</h1>
+		<p>Be kind! Help People by giving them points. 
+                  Tell us a group & we will figure out who needs it the most.
+                  Giving points is altruistic but hey you never know it may also help your negotiations success.
+                </p>
+    </div>
+    
+    <div class="w435 bekind-form">
+      <% form_tag send_points_path do %>
+            <div class="bekind-points">POINTS DONATION FORM</div>
+            <fieldset>
+                    <div class="bekind-input">
+                    <h4><label>Number of points I want to give</label></h4>
+                    <%= text_field_tag :points, '', :onKeyPress => "return keyRestrict(event,'0123456789')" %>
+                    </div>
+
+                    <div class="infieldset">
+                    <br />
+                    Donate my points to: <br />
+                    <%#= (current_user.facebook_user? ? "Facebook Friend or Random Player" : "Twitter Followers or Random Players") %>
+                    
+                    <div class="centerblocks">
+                            <%= submit_tag "#{(current_user.facebook_user? ? "Facebook Friend" : "Twitter Follower")}", :class => "#{(current_user.facebook_user? ? "facebook_input" : "twitter_input")}" %>
+                            <%= submit_tag "Random Player", :class => "randomplayer_input" %> 
+                    </div>
+
+                    </div>
+            </fieldset>
+      <% end %>
+    </div>
+
+<% end %>

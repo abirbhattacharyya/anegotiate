@@ -1,0 +1,84 @@
+.selected-friends div {
+	display: inline;
+	text-align: center;
+	}
+	
+#invite-search  {
+	float: right;
+	padding: 4px 0 0 0;
+	margin: -25px 0 0 0;
+	}
+input.x-close { border: 0; margin: 1px 0 0 -7px; padding: 5px 0 0 0; height: 22px; background: #fff;}
+.block {
+	padding: 5px 5px 5px 5px;
+}
+
+.friend {
+	zoom: 1;
+	height: 55px;
+	display: inline;
+	}
+.friend_selected { 
+	zoom: 1;
+	height: 55px;
+	display: inline;
+	}
+/* if no work activate 
+.facebook, .twitter, .randomplayer {
+	height: 20px;
+	display: inline;
+	zoom: 1;
+	}
+	*/	
+
+.facebook-invite, .twitter-invite{
+	height: 20px;
+	zoom: 1;
+	display: inline;
+	margin: 0 5px 0 0;
+	}
+
+#dashboardSummary h1 {
+	display: inline;
+	float: left;
+	zoom: 1;
+	}
+#dashboardSummary h4 {
+	zoom: 1;
+	float: right;
+	display: inline;
+	}
+.buy-info { background: #0099cc; margin: 0 0 0 210px; padding: 0;}
+.buy-btn input {
+	display: inline;
+	zoom: 1;
+	}
+.buy-howmany {
+
+	float: left;
+	}
+.summary-item div {
+	display: inline;
+	zoom: 1;}
+	
+.buy-name {  width: 165px; padding: 0 0 0 5px; display: inline; zoom:1;}
+.buy-costpoints {  display: inline; zoom: 1; margin-right: 5px;}
+
+.summary-name { float: left; }
+.summary-data { margin: 5px 0px 0px 5px; }
+
+h1.center-title {
+	margin: 10px 0px 10px 0px;
+	}
+h2.center-title {
+	margin: 10px 0px 10px 0px;
+	}
+.w635 h1 {
+    padding: 10px;
+}
+#footer {
+	width: 960px;
+	height: 38px;
+	margin: 100px 0px 0px 0px;
+	background: #cd2036;
+	}

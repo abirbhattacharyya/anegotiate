@@ -1,0 +1,71 @@
+<div class="tweetcase">
+    <div id="normal">
+        <h1>Search for stuff on Twitter.</h1>
+        <% content_tag(:div, :class => "searchbox") do %>
+
+            <div class="form">
+                <% form_tag products_path, {:method => "get"} do %>
+                    <%= text_field_tag :search, "", :class => "inputbox" %>
+                    <input class="go" type="image" src="/images/go.gif" />
+                    <%#= submit_tag "Search" %>
+                    <div><a style="cursor:pointer" onclick="advanced_search('advanced','normal')">Advanced Search</a></div>
+
+                <% end %>
+            </div>
+        <% end %><!-- /tweetcaser -->
+    </div>
+    
+    <div id="advanced" style="display:none">
+        <h1>Advance Search <span><a style="cursor:pointer" onclick="advanced_search('normal','advanced')">undo</a></span></h1>
+        <div class="form">
+            <% form_tag products_path, {:method => "get"} do %>
+                  <%= text_field_tag :search, "", :class => "inputbox" %>
+                  <input class="go" type="image" src="/images/go.gif" />
+
+                    <h6><%= label_tag "or_terms", "or these terms :" %></h6>
+                    <%= text_field_tag :or_terms,'', :class => "zip" %>
+                    
+                    <h6><%= label_tag "not_terms", "not these terms :" %></h6>
+                    <%= text_field_tag :not_terms,'', :class => "zip" %>
+                    
+                    <h6><%= label_tag "website", "Search stuff from these websites:" %></h6>
+                    <%= select_tag :website, "<option value=''>Select a type</option><option value='ebay'>ebay</option><option value='craigslist'>craigslist</option>" %>
+
+                    <h6><%= label_tag "location", "Near :" %></h6>
+                    <%= text_field_tag :location,'', :class => "zip" %>
+
+            <% end %>
+      </div>
+    </div>
+
+    <div class="info">
+            <h2>Privacy</h2>
+            <% for content in @contents %>
+                  <%= content.content %>
+            <% end %>
+    </div>
+
+    <div class="info">
+            <h2>Privacy</h2>
+            <% for content in @contents %>
+                  <%= content.content %>
+            <% end %>
+    </div>
+
+</div>
+
+<% javascript_tag do %>
+    function advanced_search(id1,id2)
+    {
+        if(document.getElementById(id1).style.display=='block')
+        {
+            document.getElementById(id1).style.display='none'
+            document.getElementById(id2).style.display='block'
+        }
+        else
+        {
+            document.getElementById(id1).style.display='block'
+            document.getElementById(id2).style.display='none'
+        }
+    }
+<% end %>

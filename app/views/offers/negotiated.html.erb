@@ -1,0 +1,29 @@
+<div class="w900 negociate-c">
+        <div class="negociate-box">
+              <ul>
+                      <li><img src="/images/temp-dog.jpg" alt="temp-dog" width="200" height="139"/></li>
+                      <li><img src="/images/temp-guy.jpg" alt="temp-guy" width="200" height="138"/></li>
+                      <li><img src="/images/temp-judge.jpg" alt="temp-judge" width="200" height="139"/></li>
+                      <li><img src="/images/temp-plane.jpg" alt="temp-plane" width="200" height="139"/></li>
+              </ul>
+        </div>
+        <div class="center spacingup">
+              <% if @random_value >= 20 %>
+                    <span class="win">Yes you <b>WON</b>, </span> 
+              <% else %>
+                    <span class="lost">No you <b>LOST</b></span>
+              <% end %>
+        </div>
+        <div class="negociate-body">
+              <h4>You Negotiated with : <%= @user.screen_name %></h4>  
+              <p></p>
+              <h3>You <%= "#{@random_value >= 20 ? "Won" : "Lost"}" %></h3>&nbsp; <%= @points %> points
+              <p></p>
+              Negotiated on <h3><%= @negotiation.neg_category.category %></h3> - 
+              <%= @negotiation.neg_category.message %>
+              <p></p>
+              <div>
+                  <%= link_to(image_tag("/images/playagain.jpg"), search_users_path) %>
+              </div>
+        </div>
+</div>

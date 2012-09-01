@@ -1,0 +1,8 @@
+<center>
+<div class="w600">
+        <h1 class="center-title">Select Negotiation Category</h1>
+        <% for category in @categories %>
+            <p><%= link_to(category.category, nego_process_path(:category => category.category), :class => "nego_link") %></p>
+        <% end %>
+</div>
+</center>

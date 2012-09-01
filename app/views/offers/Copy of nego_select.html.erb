@@ -1,0 +1,20 @@
+<div class="w600 center">
+        <h1 class="center-title">Select Negotiation Category</h1>
+        <table>
+              <% i = 0 %>
+              <% form_tag nego_process_path do %>
+                    <% for category in @categories %>
+                        <%#= (i%3 == 0)? "<tr>" : "" %>
+                        <tr>
+                            <td><%= radio_button_tag :category, category.category, (category.category=='Work' ? true : false)  %><%= category.category %></td>
+                            <% i+=1 %>
+                        </tr>
+                        <%#= (i%3 == 0)? "</tr>" : "" %>
+                    <% end %>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr><td><%= submit_tag "Go!", :class => "block" %></td></tr>
+                    
+              <% end %>
+        
+        </table>
+</div>

@@ -1,0 +1,53 @@
+<% if logged_in? %>
+    <%= current_user.style.nil? ? "" : "Current Negotiation Style: <b>#{current_user.style}</b><br /><br />" %>
+    <% if current_user.energy < min_energy(current_user) %>
+        Your Energy is too less to change the style
+    <% else %>
+	<div class="pagetitle-c"><h1>Choose Your Negotiation Style &<br /> You Will be On Your Way.</h1></div>
+	
+	<div class="w635">
+		<div class="style-box <%= (current_user.style and current_user.style == 'Aggressive') ? "style-box-active" : "" %>">
+			<div class="style-a-bg">Aggressive</div>
+			<div class="style-image"><img src="/images/bludog.jpg" alt="bludog" width="193" height="151"/></div>
+			<div class="style-desc">
+                            Uses the most energy in negotiations<br />
+                            Often negotiates successfully <br />
+                            against large gangs<br />
+                            Often wins high points<br /><br />
+                            <% form_tag do %>
+                                <%= hidden_field_tag "style", "Aggressive" %>
+                                <%= submit_tag("Choose This" , :class => "aggresive") %>
+                            <% end %>
+                        </div>
+		</div>
+		
+		<div class="style-box2 <%= (current_user.style and current_user.style == 'Neutral') ? "style-box-active" : "" %>">
+			<div class="style-n-bg">Neutral</div>
+			<div class="style-image"><img src="/images/neutral.jpg" alt="neutral" width="197" height="155"/></div>
+			<div class="style-desc">
+                            Calculated about using energy wisely<br />
+                            Does well with roughly equal gang sizes<br />
+                            Wins midsized points<br /><br />
+                            <% form_tag do %>
+                                <%= hidden_field_tag "style", "Neutral" %>
+                                <%= submit_tag("Choose This" , :class => "neutral") %>
+                            <% end %>
+                        </div>
+		</div>
+		
+		<div class="style-box3 <%= (current_user.style and current_user.style == 'Nice') ? "style-box-active" : "" %>">
+			<div class="style-n1-bg">Nice</div>
+			<div class="style-image"><img src="/images/nice.jpg" alt="nice" width="198" height="160"/></div>
+			<div class="style-desc">
+                            Conserves energy in tough negotiations<br />
+                            Likes to negotiate one on one<br />
+                            Wins lower points, most likely to get gifts or win the lottery<br /><br />
+                            <% form_tag do %>
+                                <%= hidden_field_tag "style", "Nice" %>
+                                <%= submit_tag("Choose This" , :class => "nice") %>
+                            <% end %>
+                        </div>
+		</div>
+	</div><!-- /w635 -->
+    <% end %>
+<% end %>

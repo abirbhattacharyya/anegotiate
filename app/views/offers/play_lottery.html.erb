@@ -1,0 +1,20 @@
+<div class="w415">
+    <% if @won_points %>
+        <div class="lottery-won"> You <span>Won</span> <%= number_to_currency(@won_points, :precision => 0, :unit => '') %> points</div>
+    <% elsif @lose_points %>
+        <div class="lottery-lost">You <span>Lost</span> <%= number_to_currency(@lose_points, :precision => 0, :unit => '') %> points</div>
+    <% else %>
+        <div class="w415 note-smallimg spacingdown">
+		<img src="/images/stopsymbol.gif" alt="stopsymbol" align="left" width="59" height="58"/>
+		<p> 
+                    Hey, you don't have that many points to lose.<br />
+                    Buy points or pick to give.
+                </p>
+        </div>
+		
+        <div class="w245">
+            <%= link_to(image_tag("/images/buypoints.gif", :alt => "buypoints", :size => "172x34"), paypal_path) %>
+            <span class="blubtn pushup"><a href="javascript:history.back()">Cancel</a></span>
+        </div>
+    <% end %>
+</div>	

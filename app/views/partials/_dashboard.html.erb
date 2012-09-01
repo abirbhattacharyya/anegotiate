@@ -1,0 +1,55 @@
+<div id="dashboardSummary">
+          <div class="summary-head"><h1>Summary</h1> <h4>Level <%= current_level(current_user) %></h4></div>
+          <div class="summary-item">
+                  <div class="summary-name">Current Energy</div>
+                  <div class="summary-data"><%= number_to_currency(current_user.energy, :unit => "", :precision => 0) %>/ <span><%= current_user.max_energy %></span></div>
+          </div>
+
+          <% if(request.path == tasks_path) %>
+              <% if(current_user.energy <= min_energy(current_user)) %>
+                  <% mins = ((@diff)*60).ceil %>
+                  <div class="summary-item">
+                          <div class="summary-name">Energy Refresh in</div>
+                          <div class="summary-data"><label id="refresh_in"><%= "#{(mins >= 0 and mins < 10) ? "0#{mins}" : mins}:00" %></label><span> mins</span></div>
+                  </div>
+              <% end %>
+          <% end %>
+
+          <% if((request.path == root_path) || (request.path == tasks_path)) %>
+          <div class="summary-item">
+                  <div class="summary-name">Experience</div>
+                  <div class="summary-data"><%= all_completed_tasks.size %>/ <span><%= all_attempted_tasks.total.to_i %></span></div>
+          </div>
+
+          <div class="summary-item">
+                  <div class="summary-name">Points</div>
+                  <div class="summary-data"><%= number_to_currency(current_user.points, :unit => "", :precision => 0) %></div>
+          </div>
+          <% end %>
+
+          <div class="summary-item">
+                  <div class="summary-name">Gang Size</div>
+                  <div class="summary-data"><%= number_to_currency(current_user.friends.size, :unit => "", :precision => 0) %></div>
+          </div>
+
+          <% if((request.path == root_path) || (request.path == tasks_path)) %>
+          <div class="summary-item">
+                  <div class="summary-name">Task &#37; won</div>
+                  <div class="summary-data"><%= number_to_currency(completion_ratio, :unit => "", :precision => 1) %></div>
+          </div>
+          <% end %>
+
+          <% if(request.path == search_users_path) %>
+          <div class="summary-item">
+                  <div class="summary-name">No. of Negotiations</div>
+                  <div class="summary-data"><%= Negotiation.find_all_by_user_id(current_user.id).size %></div>
+          </div>
+          <% end %>
+
+          <% if((request.path == root_path) || (request.path == search_users_path)) %>
+          <div class="summary-item">
+                  <div class="summary-name">Negotiation &#37; won</div>
+                  <div class="summary-data"><%= number_to_currency(negotiation_won_ratio, :unit => "", :precision => 1) %></div>
+          </div>
+          <% end %>
+</div><!-- /dashboardSummary -->

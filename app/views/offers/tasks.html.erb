@@ -1,0 +1,152 @@
+<% 
+    url = request.url
+    ind = url.index("?page") || url.index("&page")
+    url = url[0,ind] if ind
+%>
+
+<div class="2col-300x500">
+
+        <div class="col300 summary-info">
+              <%= render :partial => "/partials/dashboard" %>
+
+              <h4>Complete Tasks for Fun and Points</h4>
+              <p>Do stuff to earn points and gain experience as a negotiator.  Even if you fail doing something you get the experience.</p>			
+              <h4>Remember to do different tasks</h4>
+              <p>Negotiations require a variety of skills.  So remember to do different tasks so you can get higher payoffs and become a better negotiator.</p>
+        </div><!-- /col300 -->
+        
+        <div class="col500">
+              <h1 class="center-title">Enough Fun & Games!</h1>
+              <h2 class="center-title">Do Some Stuff to Make Yourself a Better Negotiator.</h2>
+              <div class="showmemore">
+                    <%# page = url.index("?") ? "#{url}&page" : "#{url}?page" %>
+                    <% page = "#{tasks_path}?page" %>
+                    <% if params[:page].to_i != @post_pages %>
+                            <% if(params[:page].to_i <= 1)%>
+                                <%= link_to(image_tag("/images/showmemorestuff.jpg", :size => "216x40"), "#{page}=2") %>
+                            <% else %>
+                                <%= link_to(image_tag("/images/showmemorestuff.jpg", :size => "216x40"), "#{page}=#{params[:page].to_i+1}") %>
+                            <% end %>
+                    <% else %>
+                            <%= link_to(image_tag("/images/showmemorestuff.jpg", :size => "216x40"), "#{page}=#{params[:page].to_i+1}") %>
+                    <% end -%>
+              </div>
+
+              <% for task in @tasks %>
+                  <div class="negociate-list">
+                          <% form_tag done_task_path(task) do%>
+                          <div class="negociate-right">
+                                <div>
+                                      Payoff Points
+                                      <% points = task.points - rand(5) %>
+                                      <span><%= number_to_currency(points, :precision => 0, :unit => "") %> - <%= number_to_currency(points+10, :precision => 0, :unit => "") %></span>
+                                      <%#= link_to(image_tag("/images/dothis.jpg", :size => "148x29"),done_task_path(task)) %>
+                                      <%= image_submit_tag("/images/dothis.jpg", :size => "148x29") %>
+                                </div>
+                          </div><!-- /negociate-right -->
+                          <% end %>
+
+                          <div class="negociate-left">
+                              <div class="negociate-what-red"><%= "#{task.description}" %></div>
+                              <div class="negociate-skill-red">
+                                        <%= link_to("#{task.category}", "?category=#{task.category}") %>
+                              </div>
+                              
+                              <div class="negociate-table">
+                                      <table>
+                                              <thead>
+                                                      <tr>
+                                                              <td>Energy Needed</td>
+                                                              <td>Risk</td>
+                                                      </tr>
+                                              </thead>
+
+                                              <tbody>
+                                                      <tr>
+                                                              <td class="points s16"><%= number_to_currency(task.energy, :precision => 0, :unit => "") %></td>
+                                                              <td class="green"><%= user_risk(task.style) %></td>
+                                                      </tr>
+                                              </tbody>
+                                      </table>
+                              </div><!-- /negociate-table -->
+                          </div><!-- /negociate-left -->
+                  </div><!-- /negociate-list -->
+              <% end %>
+
+              <% for task_item in @tasks_item %>
+                  <div class="negociate-list">
+                          <% form_tag done_task_path(task_item) do%>
+                          <div class="negociate-right">
+                                <div>
+                                      Payoff Points
+                                      <% points = task_item.points - rand(5) %>
+                                      <span><%= number_to_currency(points, :precision => 0, :unit => "") %> - <%= number_to_currency(points+10, :precision => 0, :unit => "") %></span>
+                                      <%#= link_to(image_tag("/images/dothis.jpg", :size => "148x29"),done_task_path(task_item)) %>
+                                      <%= image_submit_tag("/images/dothis.jpg", :size => "148x29") %>
+                                </div>
+                          </div><!-- /negociate-right -->
+                          <% end %>
+
+                          <div class="negociate-left">
+                              <div class="negociate-what-red"><%= "#{task_item.description}" %></div>
+                              <div class="negociate-skill-red">
+                                            <%# item = Item.find_by_name(task_item.item_name) %>
+                                            <%= link_to("#{task_item.item.name} needed to do this task", item_path(task_item.item))%>
+                              </div>
+                              
+                              <div class="negociate-table">
+                                      <table>
+                                              <thead>
+                                                      <tr>
+                                                              <td>Energy Needed</td>
+                                                              <td>Risk</td>
+                                                      </tr>
+                                              </thead>
+
+                                              <tbody>
+                                                      <tr>
+                                                              <td class="points s16"><%= number_to_currency(task_item.energy, :precision => 0, :unit => "") %></td>
+                                                              <td class="green"><%= user_risk(task_item.style) %></td>
+                                                      </tr>
+                                              </tbody>
+                                      </table>
+                              </div><!-- /negociate-table -->
+                          </div><!-- /negociate-left -->
+                  </div><!-- /negociate-list -->
+              <% end %>
+        </div><!-- /col500 -->
+</div><!-- /2col-300x500 -->
+
+<% if(current_user.energy <= min_energy(current_user)) %>
+<script type="text/javascript">
+    var idtimer = 0;
+    idtimer = setInterval(function(){ pullticker();}, 1000);
+
+    function pullticker()
+    {
+          //ajax call
+
+          new Ajax.Request("<%= refresh_in_path %>",
+              {     
+                    method:'get',     
+                    onSuccess: function(transport){       
+                        var response = transport.responseText || "";       
+                        res = parseInt(response)
+                        if(res < 0)
+                        {
+                            window.location = "<%= tasks_path %> "
+                        }
+                        else
+                        {
+                          //  $('#refresh_in').remove();
+                          //  $(response).insertBefore($('#n'));
+                          document.getElementById('refresh_in').innerHTML = response
+                        }
+                        //alert("Success! \n\n" + response);     
+                    },     
+                    onFailure: function(){ }//alert('Something went wrong...') }   
+              }
+          );
+    }
+</script>
+<% end %>

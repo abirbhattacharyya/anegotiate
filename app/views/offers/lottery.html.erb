@@ -1,0 +1,73 @@
+<% if @last_lottery and (@time_diff < 24) %>
+    <% hrs = 24 - @time_diff.ceil %>
+    <% mins = (((24.hours - @time_diff)*60)%60).to_i %>
+    <% sec = (((24.hours - @time_diff)*60*60)%60).to_i %>
+    <div class="lottery-time">
+            <p>Hey you have already played today. You can play again in</p>
+            <div id="play_again_in"><%= "#{hrs} hrs, #{mins} mins, #{sec} sec" %></div>
+    </div>	
+    
+<script type="text/javascript">
+    var idtimer = 0;
+    idtimer = setInterval(function(){ pullticker();}, 1000);
+
+    function pullticker()
+    {
+          //ajax call
+
+          new Ajax.Request("<%= play_again_in_path %>",
+              {     
+                    method:'get',     
+                    onSuccess: function(transport){       
+                        var response = transport.responseText || "";       
+                        res = parseInt(response)
+                        if(res < 0)
+                        {
+                            window.location = "<%= lottery_path %> "
+                        }
+                        else
+                        {
+                          //  $('#refresh_in').remove();
+                          //  $(response).insertBefore($('#n'));
+                          document.getElementById('play_again_in').innerHTML = response
+                        }
+                        //alert("Success! \n\n" + response);     
+                    },     
+                    onFailure: function(){ }//alert('Something went wrong...') }   
+              }
+          );
+    }
+</script>
+<% else %>
+    <div class="col550">
+          <img src="/images/feellucky.jpg" alt="feellucky" width="462" height="98"/>
+          <div class="w435 bekind-form">
+                <% form_tag play_lottery_path do %>
+                      <div class="bekind-points">A NEGOTIATE LOTTERY SLIP</div>
+                      <fieldset>
+                            <div class="bekind-input">
+				<h4><label>Number of points I want to risk</label></h4>
+				<%= text_field_tag :points, '', :onKeyPress => "return keyRestrict(event,'0123456789')" %>
+                            </div>
+				
+                            <div class="infieldset">
+                                <%= submit_tag "Go!", :class => "block" %>
+                            </div>
+                      </fieldset>
+                <% end %>
+			
+          </div><!-- /w435 bekind-form -->
+    </div><!-- /col550 -->
+    <div class="col350 spacedown-300">
+          <div class="lottery-title">
+		<p>Win up to 1,000 times of what you risk.<br /> Lose up to 5 times of what you risk.</p>
+		<ul>
+			<li>Lottery clock starts at midnight and ends at 11:59 PM, Pacific Time, but of course</li>
+			<li>Each day we have 1 person win 5 times the number of points they risk</li>
+			<li>We will also award other number of points randomly 23 times throughout the day</li>
+			<li>The number of points you will lose is random as well</li>
+		</ul>
+		
+          </div>
+    </div><!-- /col350 -->
+<% end %>

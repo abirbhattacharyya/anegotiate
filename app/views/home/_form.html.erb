@@ -1,0 +1,12 @@
+<head>
+<%= javascript_include_tag "fckeditor/fckeditor" %>
+</head>
+<%= error_messages_for 'content' %>
+
+<!--[form:content]-->
+  <div id="<%= fckeditor_div_id('content', 'content') %>">
+        <%= fckeditor_textarea( "content", "content" ,:height => '500', :width => '800' )%> 
+    </div>
+
+<!--[eoform:content]-->
+

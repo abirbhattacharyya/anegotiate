@@ -1,0 +1,28 @@
+<div class="pagetitle"><h1>Your notifications and privacy are your choice here.</h1></div>
+	
+<div class="col300">
+      <h4>What happens if I check a notification?</h4>
+      If you check a certain notification it will be posted to your wall on Facebook and tweeted to your timeline.  Often times your friends and followers will see these as an invitation to start playing.  If you leave the notifications unchecked we will not post or tweet them on your behalf.
+
+      <h4>Twitter Interactions</h4>
+      You will be following the @anegotiate on Twitter and will be notified when certain things happen if you leave notifications checked on.
+</div>
+	
+<div class="col500 notifications">
+      <h2>Send notifications on:</h2>
+      <% form_for :notification, @notification, :url => notifications_path do |f| %>
+		<ul>
+			<li><%= f.check_box :task_done, :checked => (@notification.nil? or @notification.task_done ? true : false) %> Completing a task successfully</li>
+			<li><%= f.check_box :task_fail, :checked => (@notification.nil? or @notification.task_fail ? true : false) %> Failing to complete a task</li>
+			<li><%= f.check_box :point_send, :checked => (@notification.nil? or @notification.point_send ? true : false) %> Being Kind and giving points to others</li>
+			<li><%= f.check_box :point_receive, :checked => (@notification.nil? or @notification.point_receive ? true : false) %> Receiving points from others</li>
+			<li><%= f.check_box :lottery_win, :checked => (@notification.nil? or @notification.lottery_win ? true : false) %> Winning points in the lottery</li>
+			<li><%= f.check_box :lottery_lost, :checked => (@notification.nil? or @notification.lottery_lost ? true : false) %> Losing Points in the lottery</li>
+			<li><%= f.check_box :negotiation_win, :checked => (@notification.nil? or @notification.negotiation_win ? true : false) %> Winning a negotiation </li>
+			<li><%= f.check_box :negotiation_lost, :checked => (@notification.nil? or @notification.negotiation_lost ? true : false) %> Losing a negotiation </li>
+		</ul>
+		<span><%= @total_increase %>&#37; Total Points Increase</span>
+                <p><%= f.submit "Go!", :class => "block" %></p>
+                
+      <% end %>
+</div><!-- /col500 -->

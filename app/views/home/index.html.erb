@@ -1,0 +1,104 @@
+<% 
+    url = request.url
+    ind = url.index("?page") || url.index("&page")
+    url = url[0,ind] if ind
+%>
+<% if logged_in? %>
+        <% if @permission_dialog %>
+            <script type="text/javascript">
+              FB.ensureInit(function(){
+                FB.Connect.showPermissionDialog('publish_stream', function(accepted) { } );
+              });
+            </script>
+        <% end %>
+
+	<div class="col-300x500">
+
+                <div class="col300 summary-info">
+                        <%= render :partial => "/partials/dashboard" %>
+                </div><!-- /col300 -->
+		<div class="col500">
+			<h1 class="center-title">Enough Fun & Games!</h1>
+			<div class="summary-msg">
+			<h4></h4>
+			<p></p>
+			<h5></h5>
+			
+			<h1>Activity in your network</h1>
+                        <% if @activities %>
+                            <% for activity in @activities %>
+                                <div class="bottom-boarder">
+                                  <div class="summary-time"><%= distance_of_time_in_words(Time.now, activity.created_at) %> ago</div>
+                                    <div class="summary-update">
+                                        <%= 
+                                            if activity.user.facebook_user?
+                                                link_to(activity.user.screen_name, "http://www.facebook.com/profile.php?id=#{activity.user.fb_uid}", :target => "_blank")
+                                            else
+                                                link_to(activity.user.screen_name, "http://www.twitter.com/#{activity.user.screen_name}", :target => "_blank")
+                                            end 
+                                        %>
+                                        <% digits = activity.message.gsub(/\D/, '') %>
+                                        <% msg = activity.message.gsub(digits, number_to_currency(digits, :precision => 0, :unit => "")) %>
+
+                                        <%= msg.gsub(activity.user.screen_name, '') %>
+                                        <span><%= activity.user.screen_name %> is at Level <%= current_level(activity.user) %>.</span>
+                                    </div>
+                                </div>
+                            <% end %>
+                            <span class="oldnews">
+                                <% page = url.index("?") ? "#{url}&page" : "#{url}?page" %>
+                                <% if params[:page].to_i != @post_pages %>
+                                        <% if(params[:page].to_i <= 1)%>
+                                            <%= link_to("Older news", "#{page}=2") %>
+                                        <% else %>
+                                            <%= link_to("Older news", "#{page}=#{params[:page].to_i+1}") %>
+                                        <% end %>
+                                <% else %>
+                                        <%= link_to("Latest news", "#{page}=1") %>
+                                <% end -%>
+                            </span>
+                        <% end %>
+			
+			
+			</div>
+		</div><!-- /col500 -->
+	</div><!-- /col-300x500 -->
+<% else %>
+    <center>
+	<div id="home-box1">
+		<div class="home-into">
+                        <h1>Play Negotiation Games</h1>
+                        <h4>Come & play a simple game with your friends. Become a lean, mean negotiations machine.</h4>
+		</div>
+		<br />
+		<div class="home-startPlaying">
+			<h1>Start playing now!</h1>
+		
+			<div>You need a Twitter account.
+                            <%= link_to(image_tag('/images/connectTwitter.jpg'), login_path) %>
+			</div>
+		
+			<div>You need a Facebook account.
+                            <div id="FB_HiddenContainer" style="position:absolute; top:-10000px; width:0px; height:0px;" ></div>
+                            <%#= fb_login_button('javascript:facebook_button_onclick();', :length => "long", :class => "fb_login_not_logged_in FB_ElementReady") %>
+                            <%= fb_login_button('javascript:fb_login_button_click();', :length => "long", :class => "fb_login_not_logged_in FB_ElementReady") %>
+			</div>
+		</div><!-- /home-startPlaying -->
+		
+		<div class="home-description">
+                    <p>
+                        Play by yourself & against your Twitter followers and Facebook friends.<br />
+                        Do Tasks, Learn, & Become a Better Negotiator.<br />
+                        Teach your friends or CRUSH them! Your choice!<br />
+                        Buy or earn points, give points to people.<br />
+                    </p>
+		</div><!-- home-description -->
+		
+	</div><!-- /home-box1 -->
+	
+	<div id="home-box2"><img src="/images/Home-example.jpg" alt="Home-example" width="900" height="423"/></div>
+	<div id="home-box3" class="spacingup">
+            <%= link_to(image_tag("/images/playnow.jpg", :size => "231x43", :align => "left"), signin_path) %>
+        </div>
+    </center>
+<% end %> 
